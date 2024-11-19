@@ -1,0 +1,75 @@
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Label, ResponsiveContainer } from 'recharts';
+
+const JobsScatterPlot = () => {
+  const data = [
+    { name: "Manejo del Estrés", importancia: 10, satisfaccion: 3 },
+    { name: "Organización del Tiempo", importancia: 9, satisfaccion: 4 },
+    { name: "Acceso Apoyo Psicológico", importancia: 8, satisfaccion: 3 },
+    { name: "Construcción de Comunidad", importancia: 7, satisfaccion: 5 },
+    { name: "Seguimiento del Bienestar", importancia: 8, satisfaccion: 2 },
+    { name: "Desarrollo de Hábitos", importancia: 7, satisfaccion: 4 },
+    { name: "Conexión con Pares", importancia: 6, satisfaccion: 5 },
+    { name: "Recursos Educativos", importancia: 7, satisfaccion: 6 },
+    { name: "Manejo de Ansiedad", importancia: 9, satisfaccion: 3 },
+    { name: "Balance Vida-Estudio", importancia: 8, satisfaccion: 4 },
+    { name: "Técnicas de Meditación", importancia: 6, satisfaccion: 3 },
+    { name: "Planificación Académica", importancia: 8, satisfaccion: 5 }
+  ];
+
+  return (
+    <div className="w-full h-96 p-4">
+      <h2 className="text-xl font-bold mb-4 text-center">Análisis de Jobs To Be Done: Importancia vs Satisfacción</h2>
+      <ResponsiveContainer width="100%" height="100%">
+        <ScatterChart
+          margin={{
+            top: 20,
+            right: 20,
+            bottom: 50,
+            left: 50,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis type="number" dataKey="satisfaccion" domain={[0, 10]}>
+            <Label value="Nivel de Satisfacción Actual" position="bottom" offset={20} />
+          </XAxis>
+          <YAxis type="number" dataKey="importancia" domain={[0, 10]}>
+            <Label value="Nivel de Importancia" angle={-90} position="left" offset={20} />
+          </YAxis>
+          <Tooltip 
+            cursor={{ strokeDasharray: '3 3' }}
+            content={({ payload }) => {
+              if (payload && payload.length) {
+                return (
+                  <div className="bg-white p-2 border border-gray-200 shadow-lg rounded">
+                    <p className="font-bold">{payload[0].payload.name}</p>
+                    <p>Importancia: {payload[0].payload.importancia}</p>
+                    <p>Satisfacción: {payload[0].payload.satisfaccion}</p>
+                  </div>
+                );
+              }
+              return null;
+            }}
+          />
+          <Scatter 
+            name="Jobs" 
+            data={data} 
+            fill="#8884d8"
+            shape={(props) => {
+              return (
+                <circle
+                  cx={props.cx}
+                  cy={props.cy}
+                  r={6}
+                  fill="#8884d8"
+                  fillOpacity={0.6}
+                />
+              );
+            }}
+          />
+        </ScatterChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
+
+export default JobsScatterPlot;
